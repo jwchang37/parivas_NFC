@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parivas</title>
+<meta name="theme-color" content="#0b0b0a">
+<link rel="preload" as="image" href="bg.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0b0a}
+body{color:#f2efe8;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;background:#0b0b0a url('bg.jpg') center 30%/cover no-repeat}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,7,.88) 0%,rgba(8,8,7,.5) 16%,rgba(8,8,7,.42) 30%,rgba(8,8,7,.7) 46%,rgba(8,8,7,.92) 64%,rgba(8,8,7,.97) 100%)}
+.wrap{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:36px 20px 44px}
+.mark{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:15px;letter-spacing:.5em;padding-left:.5em;color:#e2c78e;text-shadow:0 0 6px rgba(0,0,0,.95),0 1px 16px rgba(0,0,0,.9);position:relative;padding-top:4px}
+main{width:100%;max-width:380px;text-align:center}
+h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:42px;line-height:1.1;margin-bottom:14px;text-shadow:0 2px 18px rgba(0,0,0,.85)}
+.sub{color:#cfc9bd;font-size:15px;line-height:1.55;margin-bottom:32px;text-shadow:0 1px 10px rgba(0,0,0,.9)}
+form{display:grid;gap:12px}
+input{width:100%;background:rgba(11,11,10,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(242,239,232,.28);border-radius:2px;color:#f2efe8;font:inherit;font-size:16px;padding:16px;text-align:center;outline:none}
+input::placeholder{color:#b3aea4;opacity:1}
+input:focus{border-color:#d9bd82}
+button{width:100%;background:#f2efe8;color:#0b0b0a;border:0;border-radius:2px;font:inherit;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;padding:18px;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+button:disabled{opacity:.6}
+.err{color:#f0a493;font-size:13px;min-height:18px;text-shadow:0 1px 8px rgba(0,0,0,.9)}
+.foot{margin-top:28px;color:#8f8a80;font-size:12px;letter-spacing:.08em}
+</style></head><body>
+<div class="bg"></div>
+<div class="wrap">
+<main>
+<h1>Enter Show-Token Raffle</h1>
+<p class="sub">Follow Parivas on Instagram for a second entry.</p>
+<form id="f" novalidate>
+<input id="email" type="email" inputmode="email" autocomplete="email" placeholder="your@email.com" required>
+<button id="btn" type="submit">Submit</button>
+<div class="err" id="err"></div>
+</form>
+<div class="foot">@parivas_watches</div>
+</main>
+</div>
+<script>
+var EXEC_URL='https://script.google.com/macros/s/AKfycbw5uYqZ9142zlA3Omx9EAlwRk_unz6FucHP6iuqlbjskyvKbQplizm4wkwbrRfkgCDx/exec', IG_URL='https://www.instagram.com/parivas_watches/?hl=en';
+document.getElementById('f').addEventListener('submit',function(e){
+  e.preventDefault();
+  var input=document.getElementById('email'), err=document.getElementById('err'), btn=document.getElementById('btn');
+  var email=input.value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Enter a valid email.';input.focus();return;}
+  err.textContent='';btn.disabled=true;btn.textContent='One moment';
+  var body=new URLSearchParams({email:email,source:'nfc'});
+  var sent=navigator.sendBeacon&&navigator.sendBeacon(EXEC_URL,body);
+  if(!sent){try{fetch(EXEC_URL,{method:'POST',body:body,mode:'no-cors',keepalive:true});}catch(x){}}
+  window.location.href=IG_URL;
+});
+</script>
+</body></html>
